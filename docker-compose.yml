@@ -1,0 +1,17 @@
+version: '2'
+services:
+ web:
+   build:
+     context: ./
+   working_dir: /var/www/html
+   volumes:
+    - ./module:/var/www/html
+   ports:
+    - "80:80"
+ database:
+   image: mariadb
+   volumes:
+    - ~/srv/docker/data/mysql/testing:/var/lib/mysql
+   restart: always
+   environment:
+    - MYSQL_ALLOW_EMPTY_PASSWORD=true
