@@ -41,13 +41,23 @@ In the web container terminal
 prime-module-for-testing
 ```
 
-This$xslt install SilverStripe from recipe and all of the other dependencies from your composer.json file
+This will install SilverStripe from a recipe, it's dependencies, and all of the other dependencies from your 
+composer.json file
 
 
 ## Run Tests With Coverage
 ```bash
 generate-html-coverage
 ```
+
+## Running an Individual Test With Coverage
+This is an example, use the correct path to your test
+```bash
+phpdbg -qrr vendor/bin/phpunit -d memory_limit=4G --coverage-html report   tests/Registrations/EventRegistrationTest.php 
+```
+
+## Viewing Coverage Report
+Open up `path/to/this_install/module/report/index.html` in a browser.
 
 # Changing The Module Being Tested
 On the host computer
@@ -59,8 +69,13 @@ sudo rm -rf module
 This stops all docker containers running and removes the module.
 
 Clone module as above, and execute steps to get a shell on the Docker web container.  Then run this to remove the previous
-incarnation:
+incarnation, in the web container:
 
 ```bash
 rm -rf /tmp/silverstripe-cache-php7.3.12-var-www-html/
+vendor/bin/sake dev/build flush=all
 ```
+
+Then run tests as per above
+
+
