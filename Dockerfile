@@ -12,6 +12,7 @@ RUN apt-get update -y && apt-get install -y \
 		zip \
 		less \
 		vim \
+		libpq-dev \
 	--no-install-recommends && \
 	apt-get autoremove -y && \
 	rm -rf /var/lib/apt/lists/*
@@ -19,9 +20,8 @@ RUN apt-get update -y && apt-get install -y \
 # Install default PHP Extensions
 RUN docker-php-ext-install -j$(nproc) \
 		bcmath \
-		mysqli \
 		pdo \
-		pdo_mysql
+		pdo_pgsql
 
 
 # Install Intl, LDAP, GD, SOAP, Tidy, XSL, Zip PHP Extensions
@@ -35,6 +35,7 @@ RUN apt-get update -y && apt-get install -y \
         libtidy-dev \
         libxml2-dev \
         libxslt-dev \
+        gnupg2 \
     --no-install-recommends && \
     apt-mark auto \
         zlib1g-dev \
@@ -52,6 +53,7 @@ RUN apt-get update -y && apt-get install -y \
         gd \
         mbstring \
         soap \
+        pgsql \
         tidy \
         xsl \
         zip && \
@@ -95,6 +97,7 @@ RUN echo "ServerName localhost" > /etc/apache2/conf-available/fqdn.conf && \
     php composer-setup.php  && \
     php -r "unlink('composer-setup.php');" && \
     mv composer.phar /usr/local/bin/composer
+
 
 EXPOSE 80
 CMD ["apache2-foreground"]
